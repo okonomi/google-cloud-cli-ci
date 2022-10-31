@@ -15,9 +15,9 @@ RUN ARCH="$(cat /tmp/arch)" && apk add --no-cache \
   && ./google-cloud-sdk/install.sh --bash-completion=false --additional-components beta \
   && gcloud config set core/disable_usage_reporting true \
   && gcloud config set component_manager/disable_update_check true \
+  && gcloud components remove anthoscli --quiet \
   && rm -rf $(find ./google-cloud-sdk/ -regex ".*/__pycache__") \
-  && rm -rf ./google-cloud-sdk/.install/.backup \
-  && rm /google-cloud-sdk/bin/anthoscli
+  && rm -rf ./google-cloud-sdk/.install/.backup
 
 RUN sed -i -e "s/bin\/ash/bin\/bash/" /etc/passwd
 
