@@ -33,7 +33,7 @@ jobs:
           git add .
           if ! git diff --exit-code --quiet
           then
-            git commit -m "Update Cloud CLI version to $steps.update.outputs.version"
-            git tag $steps.update.outputs.version
+            git commit -m "Update Cloud CLI version to ${{ steps.update.outputs.version }}"
+            git tag ${{ steps.update.outputs.version }}
             git push --all --tags
           fi
