@@ -25,7 +25,7 @@ jobs:
         run: |
           GCLOUD_CLI_VERSION=$(curl https://okonomi.github.io/google-cloud-cli-release-notes-feed/latest.txt)
           sed -E "s/GCLOUD_CLI_VERSION=.+/GCLOUD_CLI_VERSION=${GCLOUD_CLI_VERSION}/g" Dockerfile > Dockerfile
-          echo "::set-output name=version::${GCLOUD_CLI_VERSION}"
+          echo "version=${GCLOUD_CLI_VERSION}" >> $GITHUB_OUTPUT
       - name: Push updated
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
