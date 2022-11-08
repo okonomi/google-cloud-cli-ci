@@ -11,6 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
+  group: "update"
   cancel-in-progress: true
 
 jobs:
