@@ -22,6 +22,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: main
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: Update Cloud CLI version
         id: update
         run: |
