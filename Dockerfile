@@ -1,6 +1,6 @@
 FROM alpine:3.16.2
 
-ARG CLOUD_SDK_VERSION=408.0.1
+ARG GCLOUD_CLI_VERSION=408.0.1
 ARG INSTALL_COMPONENTS=beta
 
 ENV PATH /google-cloud-sdk/bin:$PATH
@@ -12,7 +12,7 @@ RUN ARCH="$(cat /tmp/arch)" && apk add --no-cache \
       curl \
       py3-crcmod \
       python3 \
-  && curl -o google-cloud-cli.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz \
+  && curl -o google-cloud-cli.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_CLI_VERSION}-linux-${ARCH}.tar.gz \
   && tar -xf google-cloud-cli.tar.gz \
   && rm google-cloud-cli.tar.gz \
   && ./google-cloud-sdk/install.sh --bash-completion=false \

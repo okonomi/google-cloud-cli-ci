@@ -1,0 +1,39 @@
+name: Update Cloud CLI version
+
+on:
+  schedule:
+    - cron: "10 2 * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: "update"
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update Cloud CLI version
+        id: update
+        run: |
+          GCLOUD_CLI_VERSION=$(curl https://okonomi.github.io/google-cloud-cli-release-notes-feed/latest.txt)
+          sed -E "s/GCLOUD_CLI_VERSION=.+/GCLOUD_CLI_VERSION=${GCLOUD_CLI_VERSION}/g" Dockerfile > Dockerfile
+          echo "version=${GCLOUD_CLI_VERSION}" >> $GITHUB_OUTPUT
+      - name: Push updated
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          if ! git diff --exit-code --quiet
+          then
+            git commit -m "Update Cloud CLI version to ${{ steps.update.outputs.version }}"
+            git tag ${{ steps.update.outputs.version }}
+            git push --all --tags
+          fi
