@@ -18,7 +18,7 @@ RUN ARCH="$(cat /tmp/arch)" && apk add --no-cache \
   && ./google-cloud-sdk/install.sh --bash-completion=false \
   && gcloud config set core/disable_usage_reporting true \
   && gcloud config set component_manager/disable_update_check true \
-  && gcloud components remove anthoscli bq --quiet \
+  && gcloud components remove bq --quiet \
   && gcloud components install $INSTALL_COMPONENTS --quiet \
   && rm -rf $(find ./google-cloud-sdk/ -regex ".*/__pycache__") \
   && rm -rf ./google-cloud-sdk/.install/.backup
