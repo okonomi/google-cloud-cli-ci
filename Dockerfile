@@ -3,8 +3,8 @@ FROM alpine:3.20.2
 ARG GCLOUD_CLI_VERSION=490.0.0
 ARG INSTALL_COMPONENTS=beta
 
-ENV PATH /google-cloud-sdk/bin:$PATH
-ENV CLOUDSDK_PYTHON /usr/bin/python3
+ENV PATH=/google-cloud-sdk/bin:$PATH
+ENV CLOUDSDK_PYTHON=/usr/bin/python3
 
 RUN if [ "$(uname -m)" = "x86_64" ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
 RUN ARCH="$(cat /tmp/arch)" && apk add --no-cache \
