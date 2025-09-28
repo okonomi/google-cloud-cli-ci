@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: write
-  id-token: write
 
 concurrency:
   group: "update"
@@ -23,12 +22,15 @@ jobs:
         with:
           ref: main
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          persist-credentials: true
+
       - name: Update Cloud CLI version
         id: update
         run: |
           GCLOUD_CLI_VERSION=$(curl https://okonomi.github.io/google-cloud-cli-release-notes-feed/latest.txt)
           sed -i -E "s/GCLOUD_CLI_VERSION=.+/GCLOUD_CLI_VERSION=${GCLOUD_CLI_VERSION}/g" Dockerfile
           echo "version=${GCLOUD_CLI_VERSION}" >> $GITHUB_OUTPUT
+
       - name: Push updated
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
