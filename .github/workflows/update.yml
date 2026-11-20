@@ -27,7 +27,11 @@ jobs:
       - name: Update Cloud CLI version
         id: update
         run: |
-          GCLOUD_CLI_VERSION=$(curl https://okonomi.github.io/google-cloud-cli-release-notes-feed/latest.txt)
+          GCLOUD_CLI_VERSION=$(curl -fsSL https://dl.google.com/dl/cloudsdk/channels/rapid/components-2.json | jq -r '.version')
+          if ! [[ "${GCLOUD_CLI_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid Cloud CLI version: '${GCLOUD_CLI_VERSION}'"
+            exit 1
+          fi
           sed -i -E "s/GCLOUD_CLI_VERSION=.+/GCLOUD_CLI_VERSION=${GCLOUD_CLI_VERSION}/g" Dockerfile
           echo "version=${GCLOUD_CLI_VERSION}" >> $GITHUB_OUTPUT
 
